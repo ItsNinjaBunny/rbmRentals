@@ -13,7 +13,8 @@ lerna-debug.log*
 
 .eslintrc.js
 .prettierrc
-
+.env
+node_modules
 # OS
 .DS_Store
 
