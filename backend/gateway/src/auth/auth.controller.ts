@@ -1,7 +1,10 @@
-import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
+import { Controller, Get, HttpCode, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LocalAuthGuard } from './/services/LocalAuthGuard';
-import { JwtAuthGuard } from './guards/jwt.auth.guard';
+import { LocalAuthGuard } from './guards/local.guard';
+import { RtGuard } from './guards/rt.guard';
+import { AtGuard } from './guards/at.guard';
+import { GetCurrentUser } from 'src/shared/decorators/current.user';
+import { GetCurrentUserId } from 'src/shared/decorators/current.user.id';
 
 @Controller('auth')
 export class AuthController {
@@ -10,17 +13,31 @@ export class AuthController {
   ) { }
   
   @UseGuards(LocalAuthGuard)
+  @HttpCode(200)
   @Post('login')
   async login(
-    @Request() req: any
+    @Request() req
     ) { 
-      return this.authService.login(req.user);
+      return this.authService.login(req.user['id']);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('protected')
-  protected(@Request() req) {
-    return req.user;
+  @UseGuards(AtGuard)
+  @HttpCode(200)
+  @Post('logout')
+  logout(@GetCurrentUserId() sub: string) {
+    return this.authService.logout(sub);
+  }
+
+  @UseGuards(RtGuard)
+  @HttpCode(200)
+  @Post('refresh')
+  refreshToken(
+    @GetCurrentUserId()
+    sub: string,
+    @GetCurrentUser('token')
+    token: string
+  ) {
+  return this.authService.refreshToken(sub, token);
   }
 }
 

@@ -1,5 +1,5 @@
-import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { Controller, HttpException, HttpStatus } from '@nestjs/common';
+import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
 import { UsersService } from './users.service';
 import { CreateUser } from './interfaces/Create-User.interface.ts';
 import { UpdateUser } from './interfaces/Update-User.interface.ts';
@@ -36,7 +36,32 @@ export class UsersController {
   @MessagePattern('get user')
   async getUser(@Payload('username') username: string) {
     const user = await this.usersService.getUser(username);
-    console.log(user);
     return user;
+  }
+
+  @MessagePattern('get user by id')
+  async getUserById(@Payload('id') id: string) {
+    const user = await this.usersService.findOne(id);
+    return user;
+  }
+
+  @MessagePattern('get rt')
+  async getRt(@Payload('id') id: string) {
+    return await this.usersService.getToken(id);
+  }
+
+  @EventPattern('logout')
+  async logout(@Payload('id') id: string) {
+    return this.usersService.logout(id);
+  }
+
+  @EventPattern('update refresh token hash')
+  async updateRefreshToken(
+    @Payload('id')
+    id: string,
+    @Payload('hash')
+    hash: string
+  ) {
+    this.usersService.updateRefreshToken(id, hash);
   }
 }

@@ -20,5 +20,6 @@ model User {
   password String
   email String @unique @db.VarChar(30)
   phone_number String @unique @db.VarChar(10)
+  refresh_token String? @unique @default("")
   verified Boolean @default(false)
 }

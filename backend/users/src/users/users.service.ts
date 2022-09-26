@@ -16,20 +16,6 @@ export class UsersService {
     private readonly rabbit: RabbitService,
   ) { }
 
-  private async checkCredentials(email: string, phone_number: string) {
-    const result = await this.prisma.user.findFirst({
-      where: {
-        OR: [
-          { email }, { phone_number }
-        ]
-      }
-    });
-
-    if (result)
-      return true;
-    return false;
-  }
-
   async getUser(username: string) {
     const user = await this.prisma.user.findUnique({ 
       where : { email: username },
@@ -61,7 +47,13 @@ export class UsersService {
   }
 
   findOne(id: string) {
-    return `This action returns a #${id} user`;
+    return this.prisma.user.findUnique({
+      where: { id: id },
+      select: {
+        email: true,
+        phone_number: true,
+      }
+    });
   }
 
   update(id: string, updateUser: UpdateUser) {
@@ -70,5 +62,50 @@ export class UsersService {
 
   remove(id: string) {
     return `This action removes a #${id} user`;
+  }
+
+  async getToken(id: string) {
+    return await this.prisma.user.findUnique({
+      where: { id: id },
+      select: {
+        refresh_token: true
+      }
+    });
+  }
+
+  async logout(id: string) {
+    await this.prisma.user.updateMany({
+      where: { 
+        id: id,
+        refresh_token: {
+          not: null,
+        } },
+      data: {
+        refresh_token: null
+      }
+    });
+  }
+
+  private async checkCredentials(email: string, phone_number: string) {
+    const result = await this.prisma.user.findFirst({
+      where: {
+        OR: [
+          { email }, { phone_number }
+        ]
+      }
+    });
+
+    if (result)
+      return true;
+    return false;
+  }
+
+  async updateRefreshToken(id: string, hash: string) {
+    await this.prisma.user.update({
+      where: { id: id },
+      data: {
+        refresh_token: hash
+      }
+    });
   }
 }

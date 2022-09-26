@@ -3,11 +3,11 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PassportModule } from '@nestjs/passport';
-import { LocalStrategy } from './services/local.strategy';
-import { LocalAuthGuard } from './services/LocalAuthGuard';
+import { LocalStrategy } from './strategies/local.strategy';
+import { LocalAuthGuard } from './guards/local.guard';
+import { AtStrategy } from './strategies/at.strategy';
+import { RtStrategy } from './strategies/rt.strategy';
 import { JwtModule } from '@nestjs/jwt';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { JwtStrategy } from './services/jwt.strategy';
 
 @Module({
   imports: [
@@ -21,14 +21,7 @@ import { JwtStrategy } from './services/jwt.strategy';
       }
     ]),
     PassportModule,
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      useFactory: (config: ConfigService) => ({
-        secret: config.get<string>('jwt_secret'),
-        signOptions: { expiresIn: '60s'}
-      }),
-      inject: [ConfigService]
-    })
+    JwtModule.register({})
   ],
   controllers: [
     AuthController, 
@@ -37,7 +30,8 @@ import { JwtStrategy } from './services/jwt.strategy';
     AuthService,
     LocalStrategy,
     LocalAuthGuard,
-    JwtStrategy
+    AtStrategy,
+    RtStrategy
   ]
 })
 export class AuthModule {}
