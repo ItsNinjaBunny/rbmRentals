@@ -17,7 +17,7 @@ model User {
 
   first_name String @db.VarChar(20)
   last_name String @db.VarChar(16)
-  password String @db.VarChar(16)
+  password String
   email String @unique @db.VarChar(30)
   phone_number String @unique @db.VarChar(10)
   verified Boolean @default(false)

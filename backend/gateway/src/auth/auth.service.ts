@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { JwtService } from '@nestjs/jwt';
 import { lastValueFrom } from 'rxjs';
 import * as bcyrpt from 'bcryptjs';
 import { Login } from './interfaces/login.interface';
@@ -9,6 +10,8 @@ export class AuthService {
   constructor(
     @Inject('USERS')
     private readonly userClient: ClientProxy,
+    @Inject(JwtService)
+    private readonly jwt: JwtService
   ) { }
 
   async validateUser(username: string, password: string, ) {
@@ -18,6 +21,14 @@ export class AuthService {
       return result;
     }
     return null;
+  }
+
+  async login(user: Login) {
+    const payload = { email: user.email, sub: user.id }
+
+    return {
+      access_token: this.jwt.sign(payload)
+    }
   }
 
   getUser(username: string) {

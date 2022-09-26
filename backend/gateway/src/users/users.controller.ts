@@ -10,7 +10,7 @@ export class UsersController {
     private readonly usersService: UsersService,
   ) { }
 
-  @Post()
+  @Post('register')
   create(@Body() createUser: CreateUser) {
     return this.usersService.create(createUser);
   }

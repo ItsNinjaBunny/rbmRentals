@@ -5,6 +5,9 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './services/local.strategy';
 import { LocalAuthGuard } from './services/LocalAuthGuard';
+import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtStrategy } from './services/jwt.strategy';
 
 @Module({
   imports: [
@@ -18,6 +21,14 @@ import { LocalAuthGuard } from './services/LocalAuthGuard';
       }
     ]),
     PassportModule,
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: (config: ConfigService) => ({
+        secret: config.get<string>('jwt_secret'),
+        signOptions: { expiresIn: '60s'}
+      }),
+      inject: [ConfigService]
+    })
   ],
   controllers: [
     AuthController, 
@@ -25,7 +36,8 @@ import { LocalAuthGuard } from './services/LocalAuthGuard';
   providers: [
     AuthService,
     LocalStrategy,
-    LocalAuthGuard
+    LocalAuthGuard,
+    JwtStrategy
   ]
 })
 export class AuthModule {}

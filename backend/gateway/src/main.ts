@@ -1,4 +1,6 @@
 import { ConfigService } from '@nestjs/config';
+import * as session from 'express-session';
+import * as passport from 'passport';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
@@ -8,6 +10,5 @@ async function bootstrap() {
   const config = app.get<ConfigService>(ConfigService);
   const port = config.get<number>('port') || 8080;
   await app.listen(port);
-  console.log(`listening on port ${port}`);
 }
 bootstrap();

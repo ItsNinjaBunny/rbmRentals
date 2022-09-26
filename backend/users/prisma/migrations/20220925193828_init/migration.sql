@@ -5,7 +5,7 @@ CREATE TABLE "User" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "first_name" VARCHAR(20) NOT NULL,
     "last_name" VARCHAR(16) NOT NULL,
-    "password" VARCHAR(16) NOT NULL,
+    "password" TEXT NOT NULL,
     "email" VARCHAR(30) NOT NULL,
     "phone_number" VARCHAR(10) NOT NULL,
     "verified" BOOLEAN NOT NULL DEFAULT false,
