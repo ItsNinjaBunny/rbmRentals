@@ -1,0 +1,225 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+    html {
+        @apply m-0 p-0
+    }
+
+    li {
+        @apply p-4 cursor-pointer
+    }
+
+    button {
+        @apply text-[#F5FAFA] border bg-indigo-600 border-indigo-600
+        hover:bg-transparent hover:text-indigo-600 rounded-md
+    }
+}
+
+@layer components {
+    .sign-out {
+        @apply hover:bg-transparent hover:text-indigo-600 duration-[400ms]
+    }
+
+    .sign-in {
+        @apply hover:text-[#F5FAFA] hover:border 
+            hover:px-5 py-3 hover:bg-indigo-600 hover:border-indigo-600
+            duration-[400ms]
+    }
+
+    .hover-button {
+        @apply hover:bg-indigo-300 hover:text-indigo-800 duration-[400ms]
+            hover:shadow-2xl
+    }
+
+    .nav-hover {
+        @apply hover:text-indigo-600 hover:border-b-indigo-600
+            hover:scale-[1.1] hover:rounded-sm duration-200
+    }
+
+    .overlay {
+        position: relative;
+        box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+        z-index: 100;
+    }
+
+    .input_container {
+        position: relative;
+        margin: 1rem;
+    }
+
+    .contact_area {
+        width: 100%;
+        height: 5rem;
+        border: 2px solid black;
+        border-radius: 1rem;
+        color: black;
+        background-color: #F5FAFA;
+    }
+
+    .contact_input {
+        height: 3.5rem;
+        width: 25rem;
+        border: 2px solid black;
+        border-radius: 1rem;
+        color: black;
+        background-color: #F5FAFA;
+    }
+
+    .placeholder_text {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border: 3px solid transparent;
+        background-color: transparent;
+        display: flex;
+        align-items: center;
+        pointer-events: none;
+    }
+    
+    .text{
+        font-size: 1.4rem;
+        padding: 0 0.5rem;
+        background-color: transparent;
+        color: black;
+    }
+    
+    .contact_input, .placeholder_text {
+        font-size: 1.4rem;
+        padding: 0 1rem;
+    }
+
+    .contact_area, .area_placeholder_text {
+        font-size: 1.4rem;
+        padding: 0 1rem;
+    }
+    
+    .contact_input:focus, .contact_area:focus {
+        outline: none;
+        @apply border-indigo-600 text-indigo-700
+    }
+    
+    .contact_input:focus + .placeholder_text .text, :not(input[value='']) + .placeholder_text .text{
+        background-color: #F5FAFA;
+        font-size: 1.1rem;
+        color: black;
+        transform: translate(.25rem, -105%);
+        @apply border-indigo-600 text-indigo-700
+    }
+
+    .area_placeholder_text {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border: 3px solid transparent;
+        background-color: transparent;
+        display: flex;
+        align-items: center;
+        pointer-events: none;
+    }
+
+    .area_text{
+        font-size: 1.4rem;
+        padding: 0 0.5rem;
+        background-color: transparent;
+        color: black;
+    }
+
+    .contact_area:focus + .area_placeholder_text .area_text, :not(input[value='']) + .area_placeholder_text .area_text {
+        background-color: #F5FAFA;
+        font-size: 1.1rem;
+        color: black;
+        transform: translate(.75rem, -180%);
+        @apply border-indigo-600 text-indigo-700
+    }
+
+    .area_text {
+        transform: translate(0);
+        background-color: transparent;
+        transition: transform 0.15s ease-out, font-size 0.15s ease-out, background-color 0.2s ease-out, color 0.15s ease-out;
+        font-size: .75rem;
+    }
+    
+    .text {
+        transform: translate(0);
+        background-color: transparent;
+        transition: transform 0.15s ease-out, font-size 0.15s ease-out, background-color 0.2s ease-out, color 0.15s ease-out;
+        font-size: .75rem;
+    }
+
+    @media (min-width: 769px) {
+
+        .placeholder_text,
+        .contact_input,
+        .text {
+            font-size: 1.4rem;
+        }
+
+        .area_placeholder_text,
+        .contact_area,
+        .area_text {
+            font-size: 1.4rem;
+        }
+
+        .contact_input:focus + .placeholder_text .text,
+        :not(input[value='']) + .placeholder_text .text {
+            font-size: 1.15rem;
+            transform: translate(.25rem, -100%);
+        }
+
+        .contact_area:focus+ .area_placeholder_text .area_text,
+        :not(input[value='']) + .area_placeholder_text .area_text {
+            font-size: 1.15rem;
+            transform: translate(.50rem, -140%);
+        }
+
+        .character_count {
+            position: absolute;
+            left: 90%;
+            bottom: 10%;
+            @apply text-slate-500
+        }
+
+
+    }
+
+    @media (max-width: 768px) {
+
+        .contact_input {
+            width: 11rem;
+
+        }
+        .contact_area, .contact_input, .text, .placeholder_text, .area_text, .area_placeholder_text {
+            font-size: .75rem;
+        }
+
+        .contact_input:focus + .placeholder_text .text, :not(input[value='']) + .placeholder_text .text {
+            transform: translate(0, -100%);
+        }
+
+        .contact_area:focus+ .placeholder_text .text, :not(input[value='']) + .area_placeholder_text .area_text {
+            transform: translate (.75rem, -120%) ;
+        }
+
+        .placenolder_text {
+            padding: 0 .125rem
+        }
+
+        .input_container {
+            margin: .75rem;
+        }
+
+        .character_count {
+            position: absolute;
+            left: 80%;
+            bottom: 10%;
+            @apply text-slate-500
+        }
+    }
+}
