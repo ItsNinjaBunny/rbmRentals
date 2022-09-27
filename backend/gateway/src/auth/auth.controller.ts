@@ -3,8 +3,9 @@ import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local.guard';
 import { RtGuard } from './guards/rt.guard';
 import { AtGuard } from './guards/at.guard';
-import { GetCurrentUser } from 'src/shared/decorators/current.user';
-import { GetCurrentUserId } from 'src/shared/decorators/current.user.id';
+import { GetCurrentUser } from 'src/shared/decorators/current.user.decorator';
+import { GetCurrentUserId } from 'src/shared/decorators/current.user.id.decorator';
+import { Public } from 'src/shared/decorators/public.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -12,6 +13,7 @@ export class AuthController {
     private readonly authService: AuthService,
   ) { }
   
+  @Public()
   @UseGuards(LocalAuthGuard)
   @HttpCode(200)
   @Post('login')
@@ -21,13 +23,13 @@ export class AuthController {
       return this.authService.login(req.user['id']);
   }
 
-  @UseGuards(AtGuard)
   @HttpCode(200)
   @Post('logout')
   logout(@GetCurrentUserId() sub: string) {
     return this.authService.logout(sub);
   }
 
+  @Public()
   @UseGuards(RtGuard)
   @HttpCode(200)
   @Post('refresh')

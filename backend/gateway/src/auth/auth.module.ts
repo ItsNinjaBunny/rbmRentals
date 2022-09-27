@@ -8,6 +8,8 @@ import { LocalAuthGuard } from './guards/local.guard';
 import { AtStrategy } from './strategies/at.strategy';
 import { RtStrategy } from './strategies/rt.strategy';
 import { JwtModule } from '@nestjs/jwt';
+import { APP_GUARD } from '@nestjs/core';
+import { AtGuard } from './guards/at.guard';
 
 @Module({
   imports: [
@@ -31,7 +33,11 @@ import { JwtModule } from '@nestjs/jwt';
     LocalStrategy,
     LocalAuthGuard,
     AtStrategy,
-    RtStrategy
+    RtStrategy,
+    {
+      provide: APP_GUARD,
+      useClass: AtGuard
+    }
   ]
 })
 export class AuthModule {}

@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { lastValueFrom } from 'rxjs';
 import * as bcyrpt from 'bcryptjs';
 import { ConfigService } from '@nestjs/config';
+import { Interval } from '@nestjs/schedule';
 
 @Injectable()
 export class AuthService {
@@ -55,7 +56,6 @@ export class AuthService {
 
   async updateRefreshToken(id: string, rt: string) {
     const hash = await this.hashData(rt);
-    console.log(id ,'\n', rt);
     this.userClient.emit('update refresh token hash', { id: id, hash: hash });
   }
 
@@ -65,7 +65,7 @@ export class AuthService {
           sub: sub,
         }, {
           secret: this.config.get<string>('access_token'),
-          expiresIn: '60s'
+          expiresIn: 60 * 15
         }
       ),
       this.jwt.signAsync({

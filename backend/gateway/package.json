@@ -29,6 +29,7 @@
     "@nestjs/microservices": "^9.1.2",
     "@nestjs/passport": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
+    "@nestjs/schedule": "^2.1.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/express-session": "^1.17.5",
     "@types/passport": "^1.0.11",
