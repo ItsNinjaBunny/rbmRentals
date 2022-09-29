@@ -3,9 +3,9 @@ import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local.guard';
 import { RtGuard } from './guards/rt.guard';
 import { AtGuard } from './guards/at.guard';
-import { GetCurrentUser } from 'src/shared/decorators/current.user.decorator';
-import { GetCurrentUserId } from 'src/shared/decorators/current.user.id.decorator';
-import { Public } from 'src/shared/decorators/public.decorator';
+import { GetCurrentUser } from 'src/auth/shared/decorators/current.user.decorator';
+import { GetCurrentUserId } from 'src/auth/shared/decorators/current.user.id.decorator';
+import { Public } from 'src/auth/shared/decorators/public.decorator';
 
 @Controller('auth')
 export class AuthController {
