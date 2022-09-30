@@ -20,14 +20,7 @@ export class AtStrategy extends PassportStrategy(Strategy, 'jwt-at') {
     })
   }
 
-  async getUserDetails(id: string) {
-    return await lastValueFrom(this.userClient.send('get user by id', { id: id }));
-  }
-
   async validate(payload: any) {
-    // const user = await this.getUserDetails(payload.sub);
     return payload;
-      
-      // ...user
   }
 }

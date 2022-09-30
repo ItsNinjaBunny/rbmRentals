@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import supportImg from '../../assets/support.jpg';
 import { supportCards } from '../shared/template';
-import { ContactForm } from '../shared/ContactForm/ContactForm';
+import { ContactForm } from '../shared/Forms/Contact/ContactForm';
 import { SupportCard } from './SupportCard';
 
 export const Support = () => {

@@ -5,8 +5,6 @@ import {
     ArrowSmallRightIcon
 } from '@heroicons/react/24/solid';
 import { props } from './Support.props';
-import { useRef, useEffect } from 'react';
-
 
 export const SupportCard = (props: props) => {
 

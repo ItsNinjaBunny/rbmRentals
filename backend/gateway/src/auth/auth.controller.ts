@@ -24,6 +24,15 @@ export class AuthController {
   }
 
   @HttpCode(200)
+  @Get('details')
+  async getCredentials(
+    @GetCurrentUserId()
+    id: string
+  ) {
+    return await this.authService.getUserDetails(id);
+  }
+
+  @HttpCode(200)
   @Post('logout')
   logout(@GetCurrentUserId() sub: string) {
     return this.authService.logout(sub);

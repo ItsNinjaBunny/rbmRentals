@@ -31,8 +31,7 @@ export class AuthService {
   }
 
   async login(id: string) {
-    const payload = { sub: id }
-    
+    const payload = { sub: id };
     const tokens = await this.generateTokens(payload.sub);
     await this.updateRefreshToken(payload.sub, tokens.refreshToken);
     return tokens;
@@ -81,7 +80,11 @@ export class AuthService {
     }
   }
 
+  async getUserDetails(id: string) {
+    return await lastValueFrom(this.userClient.send('get user by id', { id: id }));
+  }
+
   getUserByEmail(username: string) {
-  return this.userClient.send('get user', { username });
+    return this.userClient.send('get user', { username });
   }
 }

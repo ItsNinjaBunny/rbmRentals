@@ -2,6 +2,9 @@ import React, { useRef, useState } from 'react';
 import { useEffect } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/solid'
 
+/*
+    regex email type email doesn't work for input box
+*/
 
 type props = {
     active: boolean,
@@ -60,7 +63,7 @@ export const ContactForm = (props: props) => {
         <div ref={ref} className={`${props.active ? 'duration-[450ms] opacity-100' : 'duration-[450ms] opacity-0 pointer-events-none'} overlay`}>
             <div className='bg-[#F5FAFA] rounded-2xl shadow-2xl p-8 fixed flex flex-col left-[50%] top-[50%] 
                 translate-x-[-50%] translate-y-[-50%]'>
-                <XMarkIcon className='absolute text-indigo-600 w-10 right-[1rem] top-[1rem] cursor-pointer hover:animate-shake' onClick={() => props.setActive()}/>
+                <XMarkIcon className='absolute text-indigo-600 w-10 right-[1rem] top-[1rem] cursor-pointer' onClick={() => props.setActive()}/>
                 <p className='text-3xl pb-4 ml-5 text-indigo-700 font-bold'>Contact Us</p>
                 <div className=' flex flex-row  border-black-[2px]'>
                     <div className='input_container'>

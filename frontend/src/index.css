@@ -29,6 +29,36 @@
             duration-[400ms]
     }
 
+
+    .menu:nth-child(1) {
+        @apply duration-[1300ms]
+    }
+
+    .menu:nth-child(2) {
+        @apply duration-[1100ms]
+    }
+
+    .menu:nth-child(3) {
+        @apply duration-[900ms]
+    }
+
+    .menu:nth-child(4) {
+        @apply duration-700
+    }
+
+    .menu:nth-child(5) {
+        @apply duration-500
+    }
+
+    .menu:nth-child(6) {
+        @apply duration-300
+    }
+
+    .menu:nth-child(7) {
+        @apply duration-100
+    }
+
+
     .hover-button {
         @apply hover:bg-indigo-300 hover:text-indigo-800 duration-[400ms]
             hover:shadow-2xl
@@ -47,7 +77,7 @@
 
     .input_container {
         position: relative;
-        margin: 1rem;
+        padding: 1rem;
     }
 
     .contact_area {
@@ -103,7 +133,7 @@
         @apply border-indigo-600 text-indigo-700
     }
     
-    .contact_input:focus + .placeholder_text .text, :not(input[value='']) + .placeholder_text .text{
+    .contact_input:focus + .placeholder_text .text, :not(input[value='']) + .placeholder_text .text {
         background-color: #F5FAFA;
         font-size: 1.1rem;
         color: black;
@@ -170,7 +200,7 @@
         .contact_input:focus + .placeholder_text .text,
         :not(input[value='']) + .placeholder_text .text {
             font-size: 1.15rem;
-            transform: translate(.25rem, -100%);
+            transform: translate(1rem, -100%);
         }
 
         .contact_area:focus+ .area_placeholder_text .area_text,
