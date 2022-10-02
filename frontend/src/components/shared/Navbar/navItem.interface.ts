@@ -1,6 +1,6 @@
 export interface props {
-    id?: number;
-    title: string;
-    to: string;
-    styles?: string;
+	id?: number;
+	title: string;
+	to: string;
+	styles?: string;
 }

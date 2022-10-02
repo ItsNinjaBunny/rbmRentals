@@ -1,7 +1,7 @@
 import React from "react";
 
 export interface props {
-    id?: number;
-    title: string;
-    to: string;
+	id?: number;
+	title: string;
+	to: string;
 }
