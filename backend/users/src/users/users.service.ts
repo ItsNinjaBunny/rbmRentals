@@ -43,7 +43,7 @@ export class UsersService {
   }
 
   findAll() {
-    return `This action returns all users`;
+    return this.prisma.user.findMany();
   }
 
   findOne(id: string) {
@@ -57,11 +57,14 @@ export class UsersService {
   }
 
   update(id: string, updateUser: UpdateUser) {
-    return `This action updates a #${id} user`;
+    return this.prisma.user.update({
+      where: { id: id },
+      data: updateUser
+    });
   }
 
   remove(id: string) {
-    return `This action removes a #${id} user`;
+    return this.prisma.user.delete({ where: { id: id }});
   }
 
   async getToken(id: string) {
