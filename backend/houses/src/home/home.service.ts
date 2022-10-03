@@ -10,7 +10,7 @@ export class HomeService {
     @Inject(PrismaService)
     private readonly prisma: PrismaService
   ) { }
-  
+
   async create(createHomeDto: CreateHomeDto) {
     createHomeDto.id = uuid();
     const {
@@ -53,18 +53,21 @@ export class HomeService {
   }
 
   findAll() {
-    return `This action returns all home`;
+    return this.prisma.house.findMany();
   }
 
   findOne(id: string) {
-    return this.prisma.house.findUnique({ where: { id: id }});
+    return this.prisma.house.findUnique({ where: { id: id } });
   }
 
   update(id: string, updateHomeDto: UpdateHomeDto) {
-    return `This action updates a #${id} home`;
+    return this.prisma.house.update({
+      where: { id: id },
+      data: updateHomeDto
+    });
   }
 
   remove(id: string) {
-    return `This action removes a #${id} home`;
+    return this.prisma.house.delete({ where: { id: id }});
   }
 }
