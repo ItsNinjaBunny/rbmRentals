@@ -11,39 +11,52 @@ datasource db {
 }
 
 model House {
-  id String @id
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  property_name String @db.VarChar(30)
-  house_type String @db.VarChar(10)
-  city String @default("")
-  state String @default("") @db.VarChar(2)
-  zipcode String @default("") @db.VarChar(5)
-  beds Int @default(1)
-  baths Int @default(1)
-  workspace Int @default(0)
-  occupied Boolean @default(false)
-  stay DateTime[] @default([])
+  property_name String     @db.VarChar(30)
+  house_type    String     @db.VarChar(10)
+  beds          Int
+  baths         Int
+  workspace     Int
+  stay          DateTime[]
 
-  amenities Amenity[]
-  room Room[]
+  house_amenities  HouseAmenity? @relation(fields: [houseAmenitiesId], references: [id])
+  houseAmenitiesId String?       @unique
+  rooms            Room[]
+
+  zipcode    String   @db.VarChar(5)
+  address    Address? @relation(fields: [address_id], references: [id])
+  address_id Int      @unique
 }
 
-model Amenity {
+model Address {
   id Int @id @default(autoincrement())
 
-  amenity_name String
+  city       String
+  state_code String  @db.VarChar(2)
+  house      House[]
+}
 
-  house House @relation(fields: [house_id], references: [id])
-  house_id String
+model HouseAmenity {
+  id             String  @id @default(uuid())
+  master_bedroom Boolean
+  outdoor_patio  Boolean
+  fireplace      Boolean
+  firepit        Boolean
+  pet_friendly   Boolean
+  locked_rooms   Boolean
+  parking        Boolean
+  backyard       Boolean
+
+  house House?
 }
 
 model Room {
-  id Int @id @default(autoincrement())
-
+  id          String  @id @default(uuid())
   room_number String
-  occupied Boolean @default(false)
-  house House @relation(fields: [house_id], references: [id])
-  house_id String
+  occupied    Boolean @default(false)
+  house       House?  @relation(fields: [house_id], references: [id])
+  house_id    String?
 }

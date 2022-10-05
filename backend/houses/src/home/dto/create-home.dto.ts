@@ -8,12 +8,27 @@ export class CreateHomeDto {
   occupied: boolean;
   stay: [Date, Date]
 
-  amenities: Amenity[];
-  room: Room[]
+  amenities: Amenity;
+  room: Room[];
+  
+  zipcode: string;
+  address: Address;
+}
+
+export interface Address {
+  city: string;
+  state_code: string;
 }
 
 export interface Amenity {
-  amenity_name: string;
+  master_bedroom?: boolean;
+  outdoor_patio?: boolean;
+  fireplace?: boolean;
+  firepit?: boolean;
+  pet_friendly?: boolean;
+  locked_rooms?: boolean;
+  parking?: boolean;
+  backyard?: boolean;
 }
 
 export interface Room {
