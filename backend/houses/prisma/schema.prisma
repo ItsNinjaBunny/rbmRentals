@@ -25,6 +25,8 @@ model House {
   house_amenities  HouseAmenity? @relation(fields: [houseAmenitiesId], references: [id])
   houseAmenitiesId String?       @unique
   rooms            Room[]
+  // rooms Room? @relation(fields: [room_id], references: [id])
+  // room_id String? @unique
 
   zipcode    String   @db.VarChar(5)
   address    Address? @relation(fields: [address_id], references: [id])
@@ -57,6 +59,6 @@ model Room {
   id          String  @id @default(uuid())
   room_number String
   occupied    Boolean @default(false)
-  house       House?  @relation(fields: [house_id], references: [id])
-  house_id    String?
+  house House? @relation(fields: [house_id], references: [id])
+  house_id String?
 }
