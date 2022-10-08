@@ -14,6 +14,10 @@ export class HomeService {
     return this.houseClient.send('create home', { home: createHomeDto });
   }
 
+  uploadFiles(id: string, files: Array<Express.Multer.File>) {
+    return this.houseClient.send('upload house images', { id: id, images: files });
+  }
+
   findAll() {
     return `This action returns all home`;
   }
@@ -23,7 +27,7 @@ export class HomeService {
   }
 
   update(id: string, updateHomeDto: UpdateHomeDto) {
-    return `This action updates a #${id} home`;
+    return this.houseClient.send('update home', { id: id, updateHomeDto: updateHomeDto});
   }
 
   remove(id: string) {

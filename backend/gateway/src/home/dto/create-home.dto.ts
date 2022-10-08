@@ -4,16 +4,23 @@ export class CreateHomeDto {
   house_type: string;
   beds: number;
   baths: number;
-  workspace: number;
+  workspaces: number;
   occupied: boolean;
   stay: [Date, Date]
 
-  amenities: Amenity[];
+  amenities: Amenity;
   room: Room[]
 }
 
 export interface Amenity {
-  amenity_name: string;
+  master_bedroom: boolean
+  outdoor_patio: boolean
+  fireplace: boolean
+  firepit: boolean
+  pet_friendly: boolean
+  locked_rooms: boolean
+  parking: boolean
+  backyard: boolean
 }
 
 export interface Room {
