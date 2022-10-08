@@ -18,27 +18,38 @@ model House {
   property_name String     @db.VarChar(30)
   house_type    String     @db.VarChar(10)
   beds          Int
-  baths         Int
-  workspace     Int
+  baths         Float
+  workspaces    Int
   stay          DateTime[]
+  images        Image[]
 
   house_amenities  HouseAmenity? @relation(fields: [houseAmenitiesId], references: [id])
   houseAmenitiesId String?       @unique
   rooms            Room[]
-  // rooms Room? @relation(fields: [room_id], references: [id])
-  // room_id String? @unique
 
   zipcode    String   @db.VarChar(5)
   address    Address? @relation(fields: [address_id], references: [id])
-  address_id Int      @unique
+  address_id Int?
+}
+
+model Image {
+  id       String  @id @default(uuid())
+  key      String  
+  location String  
+  gallery  Boolean @default(false)
+  house    House?  @relation(fields: [house_id], references: [id])
+  house_id String?
+
 }
 
 model Address {
   id Int @id @default(autoincrement())
 
-  city       String
-  state_code String  @db.VarChar(2)
-  house      House[]
+  city  String
+  state String  @db.VarChar(2)
+  house House[]
+
+  @@unique([city, state])
 }
 
 model HouseAmenity {
@@ -56,9 +67,8 @@ model HouseAmenity {
 }
 
 model Room {
-  id          String  @id @default(uuid())
-  room_number String
+  room_number String  @unique
   occupied    Boolean @default(false)
-  house House? @relation(fields: [house_id], references: [id])
-  house_id String?
+  house       House?  @relation(fields: [house_id], references: [id])
+  house_id    String?
 }

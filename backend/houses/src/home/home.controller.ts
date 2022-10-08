@@ -1,8 +1,8 @@
 import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
 import { HomeService } from './home.service';
-import { CreateHomeDto } from './dto/create-home.dto';
-import { UpdateHomeDto } from './dto/update-home.dto';
+import { CreateHomeDto } from './classes/create-home.dto';
+import { UpdateHomeDto } from './classes/update-home.dto';
 
 @Controller()
 export class HomeController {
@@ -11,6 +11,16 @@ export class HomeController {
   @MessagePattern('create home')
   create(@Payload('home') createHomeDto: CreateHomeDto) {
     return this.homeService.create(createHomeDto);
+  }
+
+  @MessagePattern('upload house images')
+  uploadImages(
+    @Payload('images')
+    images: Array<Express.Multer.File>,
+    @Payload('id')
+    id: string
+  ) {
+    return this.homeService.uploadImages(id, images);
   }
 
   @MessagePattern('findAllHome')
@@ -24,8 +34,13 @@ export class HomeController {
   }
 
   @MessagePattern('updateHome')
-  update(@Payload() updateHomeDto: UpdateHomeDto) {
-    return this.homeService.update(updateHomeDto.id, updateHomeDto);
+  update(
+    @Payload()
+    id: string,
+    @Payload()
+    updateHomeDto: UpdateHomeDto
+    ) {
+    return this.homeService.update(id, updateHomeDto);
   }
 
   @MessagePattern('removeHome')

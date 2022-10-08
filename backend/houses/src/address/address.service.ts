@@ -8,13 +8,31 @@ export class AddressService {
     private readonly prisma: PrismaService
   ) { }
 
-  async containsCity(city: string) {
+  async containsCity(address: { city: string, state: string }) {
     const result = await this.prisma.address.findUnique({
       where: {
-        city: this.capitolizeLetter(city)
+        city_state: {
+          city: this.capitolizeLetter(address.city),
+          state: address.state
+        }
       }
     });
     return result === null ? false : true
+  }
+
+  async getAddressId(address: { city: string, state: string }) {
+    const result =  await this.prisma.address.findUnique({
+      where: {
+        city_state: {
+          city: this.capitolizeLetter(address.city),
+          state: address.state
+        }
+      },
+      select: {
+        id: true
+      }
+    });
+    return result.id;
   }
 
   capitolizeLetter(city: string) {
