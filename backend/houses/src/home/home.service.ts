@@ -95,7 +95,7 @@ export class HomeService {
 
   async uploadImages(id: string, images: Array<Express.Multer.File>) {
 
-    for(let i = 0; i < images.length; i++) {
+    for (let i = 0; i < images.length; i++) {
       const result = await this.bucket.uploadFile(images[i]);
       await this.prisma.image.create({
         data: {
@@ -121,9 +121,15 @@ export class HomeService {
   }
 
   findOne(id: string, options?: FindOneOptions) {
-    if(options)
-      return this.prisma.house.findUnique({ where: { id: id }, select: {...options} });
-    return this.prisma.house.findUnique({ where: { id: id }});
+    return this.prisma.house.findUnique({
+      where: { id: id }, 
+      select: {
+        ...options,
+        id: true,
+        property_name: true,
+        house_amenities: true
+      }
+    });
   }
 
   async update(id: string, updateHomeDto: UpdateHomeDto) {
