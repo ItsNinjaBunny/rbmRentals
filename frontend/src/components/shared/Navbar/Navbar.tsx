@@ -46,17 +46,19 @@ export const Navbar = () => {
 					setUser(() => ({ ...details }));
 				}}
 			/>
-			<ul className={!active ? 'pointer-events-none' : 'duration-[600ms] absolute bg-zinc-200 w-full px-8'}>
-				{navbarItems.map((item: props) => (
-					<NavbarItem styles={`${!active ? 'translate-x-[-300rem]' : 'duration-700'} menu border-b-2 flex flex-col border-zinc-300 w-full mt-4 p-3 ' +
-                        'hover:text-indigo-600 hover:font-bold duration-[400ms]`}
-						key={item.id} to={item.to} title={item.title} />
-				))}
-				<div className='flex flex-col my-4'>
-					<button className={`${!active ? 'translate-x-[-300rem]' : ''} menu sign-in bg-transparent text-indigo-600 px-8 py-3 mb-4`}>Sign In</button>
-					<button className={`${!active ? 'translate-x-[-300rem]' : 'duration-700'} menu sign-out px-8 py-3`}>Sign Up</button>
-				</div>
-			</ul>
+			<div className={!active ? 'pointer-events-none' : 'duration-[1000ms] absolute bg-zinc-200 w-full px-8 opacity-[.95]'}>
+				<ul>
+					{navbarItems.map((item: props) => (
+						<NavbarItem styles={`${!active ? 'translate-x-[-300rem]' : 'duration-700 '} menu border-b-2 flex flex-col border-zinc-300 w-full mt-4 p-3 ' +
+													'hover:text-indigo-600 hover:font-bold duration-[400ms]`}
+							key={item.id} to={item.to} title={item.title} />
+					))}
+					<div className='flex flex-col my-4'>
+						<button className={`${!active ? 'translate-x-[-300rem]' : ''} menu sign-in bg-transparent text-indigo-600 px-8 py-3 mb-4`}>Sign In</button>
+						<button className={`${!active ? 'translate-x-[-300rem]' : ''} menu sign-out px-8 py-3`}>Sign Up</button>
+					</div>
+				</ul>
+			</div>
 		</div>
 	)
 }
