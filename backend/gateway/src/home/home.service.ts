@@ -18,6 +18,10 @@ export class HomeService {
     return this.houseClient.send('upload house images', { id: id, images: files });
   }
 
+  getGalleryImages() {
+    return this.houseClient.send('get gallery images', { });
+  }
+
   findAll() {
     return `This action returns all home`;
   }

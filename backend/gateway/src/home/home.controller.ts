@@ -22,6 +22,13 @@ export class HomeController {
   }
 
   @Public()
+  @Get('images')
+  getGalleryImages() {
+    return this.homeService.getGalleryImages();
+  }
+
+
+  @Public()
   @Post('create')
   create(
     @Body('house')
