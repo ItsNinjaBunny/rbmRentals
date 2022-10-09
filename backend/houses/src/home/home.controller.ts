@@ -6,21 +6,26 @@ import { UpdateHomeDto } from './classes/update-home.dto';
 
 @Controller()
 export class HomeController {
-  constructor(private readonly homeService: HomeService) {}
+  constructor(private readonly homeService: HomeService) { }
 
   @MessagePattern('create home')
-  create(@Payload('home') createHomeDto: CreateHomeDto) {
-    return this.homeService.create(createHomeDto);
+  async create(@Payload('home') createHomeDto: CreateHomeDto) {
+    return await this.homeService.create(createHomeDto);
   }
 
   @MessagePattern('upload house images')
-  uploadImages(
+  async uploadImages(
     @Payload('images')
     images: Array<Express.Multer.File>,
     @Payload('id')
     id: string
   ) {
-    return this.homeService.uploadImages(id, images);
+    return await this.homeService.uploadImages(id, images);
+  }
+
+  @MessagePattern('get gallery images')
+  getGalleryImages() {
+    return this.homeService.getGalleryImages();
   }
 
   @MessagePattern('findAllHome')
@@ -29,8 +34,8 @@ export class HomeController {
   }
 
   @MessagePattern('findOneHome')
-  findOne(@Payload() id: string) {
-    return this.homeService.findOne(id);
+  async findOne(@Payload() id: string) {
+    return await this.homeService.findOne(id);
   }
 
   @MessagePattern('updateHome')
@@ -39,7 +44,7 @@ export class HomeController {
     id: string,
     @Payload()
     updateHomeDto: UpdateHomeDto
-    ) {
+  ) {
     return this.homeService.update(id, updateHomeDto);
   }
 

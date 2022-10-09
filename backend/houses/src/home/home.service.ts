@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PrismaService } from 'src/shared/prisma.service';
-import { Amenity, CreateHomeDto } from './classes/create-home.dto';
+import { CreateHomeDto } from './classes/create-home.dto';
 import { UpdateHomeDto } from './classes/update-home.dto';
 import { v4 as uuid } from 'uuid';
 import { AddressService } from 'src/address/address.service';
@@ -12,6 +13,8 @@ export class HomeService {
   constructor(
     @Inject(PrismaService)
     private readonly prisma: PrismaService,
+    @Inject(ConfigService)
+    private readonly config: ConfigService,
     @Inject(BucketService)
     private readonly bucket: BucketService,
     @Inject(AddressService)
@@ -116,8 +119,28 @@ export class HomeService {
     });
   }
 
-  findAll() {
-    return this.prisma.house.findMany();
+  async getGalleryImages() {
+    const images = await this.prisma.image.findMany({
+      where: {
+        gallery: true
+      }, select: {
+        key: true,
+        location: true,
+      }
+    });
+    const url: string[] = [];
+    for(let i = 0; i < images.length; i++) {
+      url.push(await this.bucket.getSignedURL(
+        this.config.get<string>('aws_bucket'),
+        images[i].key,
+        60
+      ));
+    }
+    return url;
+  }
+
+  async findAll() {
+    return await this.prisma.house.findMany();
   }
 
   findOne(id: string, options?: FindOneOptions) {

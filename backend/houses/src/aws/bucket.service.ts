@@ -41,7 +41,7 @@ export class BucketService {
     return this.s3.getSignedUrl('getObject', {
       Bucket: bucket,
       Key: fileName,
-      expires: expiry
+      Expires: expiry
     })
   }
 }
