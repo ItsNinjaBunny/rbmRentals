@@ -12,7 +12,6 @@ async function bootstrap() {
         durable: false
       }
     },
-    
   });
   await app.listen();
 }

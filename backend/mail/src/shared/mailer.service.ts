@@ -26,6 +26,6 @@ export class MailService {
       <p>If you did not request this email you can saftely ignore it.</p>
       `,
       from: this.config.get<string>('username')
-    })
+    });
   }
 }
