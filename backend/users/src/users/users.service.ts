@@ -86,6 +86,19 @@ export class UsersService {
     });
   }
 
+  async verifyAccount(token: string) {
+    return this.prisma.user.update({
+      where: { id: token },
+      data: {
+        verified: true
+      },
+      select: {
+        id: true,
+        verified: true
+      }
+    })
+  }
+
   private async checkCredentials(email: string, phone_number: string) {
     const result = await this.prisma.user.findFirst({
       where: {

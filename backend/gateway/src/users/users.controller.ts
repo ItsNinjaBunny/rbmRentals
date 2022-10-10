@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Inject } from '@nest
 import { UsersService } from './users.service';
 import { CreateUser } from './interfaces/user.interface';
 import { UpdateUser } from './interfaces/updated.user.interface';
+import { Public } from 'src/auth/shared/decorators/public.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -10,6 +11,7 @@ export class UsersController {
     private readonly usersService: UsersService,
   ) { }
 
+  @Public()
   @Post('register')
   create(@Body() createUser: CreateUser) {
     return this.usersService.create(createUser);

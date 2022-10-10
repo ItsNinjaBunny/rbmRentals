@@ -64,4 +64,12 @@ export class UsersController {
   ) {
     this.usersService.updateRefreshToken(id, hash);
   }
+
+  @MessagePattern('verify account')
+  async verifyAccount(
+    @Payload('token')
+    token: string
+  ) {
+    return await this.usersService.verifyAccount(token);
+  }
 }

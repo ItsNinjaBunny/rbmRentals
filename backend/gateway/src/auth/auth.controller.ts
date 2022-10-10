@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local.guard';
 import { RtGuard } from './guards/rt.guard';
@@ -23,13 +23,15 @@ export class AuthController {
       return this.authService.login(req.user['id']);
   }
 
+  @Public()
   @HttpCode(200)
-  @Get('details')
-  async getCredentials(
-    @GetCurrentUserId()
-    id: string
+  @Get('confirm/:token')
+  async verifyAccount(
+    @Param(':token')
+    token: string
   ) {
-    return await this.authService.getUserDetails(id);
+    console.log(`this is the token: ${token}`);
+    return await this.authService.verifyAccount(token);
   }
 
   @HttpCode(200)

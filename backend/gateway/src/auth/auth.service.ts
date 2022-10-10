@@ -79,8 +79,8 @@ export class AuthService {
     }
   }
 
-  async getUserDetails(id: string) {
-    return await lastValueFrom(this.userClient.send('get user by id', { id: id }));
+  async verifyAccount(token: string) {
+    return await lastValueFrom(this.userClient.send('verify account', { token: token }));
   }
 
   getUserByEmail(username: string) {
