@@ -14,22 +14,22 @@ export class UsersService {
   ) { }
 
   create(createUser: CreateUser) {
-    return this.client.send<string, CreateUser>('create user', createUser);
+    return this.client.send<string, { user: CreateUser }>('create user', { user: createUser });
   }
 
   findAll() {
-    return `This action returns all users`;
+    return this.client.send<string, {}>('find all users', {});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  findOne(id: string) {
+    return this.client.send<string, { }>('find user by id', { });
   }
 
-  update(id: number, updateUser: UpdateUser) {
-    return `This action updates a #${id} user`;
+  update(id: string, updateUser: UpdateUser) {
+    return this.client.send<string, { user: UpdateUser }>('update user', { user: updateUser });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  remove(id: string) {
+    return this.client.send<string, { }>('remove user', { });
   }
 }

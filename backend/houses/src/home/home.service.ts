@@ -120,13 +120,20 @@ export class HomeService {
   }
 
   async getGalleryImages() {
+    const count = await this.prisma.image.aggregate({
+      _count: {
+        gallery: true
+      }, where: {
+        gallery: true
+      }
+    });
     const images = await this.prisma.image.findMany({
       where: {
         gallery: true
       }, select: {
         key: true,
-        location: true,
-      }
+      }, take: this.getRandomNumber(14, 10),
+      skip: this.getRandomNumber(count._count.gallery - 15, 1)
     });
     const url: string[] = [];
     for(let i = 0; i < images.length; i++) {
@@ -197,5 +204,9 @@ export class HomeService {
 
   remove(id: string) {
     return this.prisma.house.delete({ where: { id: id } });
+  }
+
+  private getRandomNumber(max: number, min: number) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 }

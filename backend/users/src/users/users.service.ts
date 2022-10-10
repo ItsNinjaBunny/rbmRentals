@@ -1,5 +1,4 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { v4 as uuid } from 'uuid';
 import * as bcrypt from 'bcryptjs';
 import { PrismaService } from 'src/shared/prisma/prisma.service';
 import { RabbitService } from 'src/shared/queue/rabbit.service';
@@ -30,16 +29,14 @@ export class UsersService {
     return null;
   }
 
-  async create(createUser: CreateUser) {
-    if (await this.checkCredentials(createUser.email, createUser.phone_number))
+  async create(user: CreateUser) {
+    if (await this.checkCredentials(user.email, user.phone_number))
       return new HttpException('that email or phone number already exists', HttpStatus.UNPROCESSABLE_ENTITY);
 
-    createUser.id = uuid();
-    const password = createUser.password;
-    const hash = await bcrypt.hash(password, 10);
-    createUser.password = hash;
-    this.rabbit.createUser({ name: createUser.first_name, email: createUser.email, token: createUser.id });
-    return this.prisma.user.create({ data: createUser });
+    user.password = await this.hashPassword(user.password, 10);
+    user.email = this.capitalizeEmail(user.email);
+    this.rabbit.createUser({ name: user.first_name, email: user.email, token: user.id });
+    return this.prisma.user.create({ data: user });
   }
 
   findAll() {
@@ -110,5 +107,15 @@ export class UsersService {
         refresh_token: hash
       }
     });
+  }
+
+  private capitalizeEmail(email: string) {
+    let char = email.charAt(0);
+    char = char.toUpperCase();
+    return char + email.slice(1);
+  }
+
+  private async hashPassword(password: string, salt: number = 10) {
+    return await bcrypt.hash(password, salt);
   }
 }

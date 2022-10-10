@@ -2,9 +2,8 @@ import { ForbiddenException, Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { JwtService } from '@nestjs/jwt';
 import { lastValueFrom } from 'rxjs';
-import * as bcyrpt from 'bcryptjs';
+import * as bcrypt from 'bcryptjs';
 import { ConfigService } from '@nestjs/config';
-import { Interval } from '@nestjs/schedule';
 
 @Injectable()
 export class AuthService {
@@ -18,12 +17,12 @@ export class AuthService {
   ) { }
 
   private async hashData(data: string) {
-    return bcyrpt.hash(data, 10);
+    return bcrypt.hash(data, 10);
   }
 
   async validateUser(username: string, password: string, ) {
     const user: {id: string, password: string} = await lastValueFrom(this.getUserByEmail(username));
-    if(user && await bcyrpt.compare(password, user.password)) {
+    if(user && await bcrypt.compare(password, user.password)) {
       const { password, ...result } = user;
       return result;
     }
@@ -41,7 +40,7 @@ export class AuthService {
     const { refresh_token } = await lastValueFrom(this.userClient.send('get rt', { id: id }));
     if(!refresh_token) throw new ForbiddenException('Access Denied');
 
-    if(!await bcyrpt.compare(rt, refresh_token)) throw new ForbiddenException('Access Denied');
+    if(!await bcrypt.compare(rt, refresh_token)) throw new ForbiddenException('Access Denied');
 
     const tokens = await this.generateTokens(id);
     await this.updateRefreshToken(id, tokens.refreshToken);
